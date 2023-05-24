@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nutricao_app/view/food_view.dart';
+import 'package:nutricao_app/view/testedb_view.dart';
 import 'package:nutricao_app/view/register_view.dart';
 
 import 'creditos.dart';

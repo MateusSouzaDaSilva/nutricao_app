@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutricao_app/view/login_view.dart';
 
-import 'creditos.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});

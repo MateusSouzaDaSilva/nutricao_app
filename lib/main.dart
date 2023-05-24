@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:nutricao_app/pages/cadastro_page.dart';
+import 'package:nutricao_app/pages/login_page.dart';
 import 'firebase_options.dart';
 import 'package:nutricao_app/view/login_view.dart';
 
@@ -30,7 +32,7 @@ class HomePage extends StatelessWidget {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              return const Login();
+              return const LoginPage();
             default:
               return const Text('Loading...');
           }
