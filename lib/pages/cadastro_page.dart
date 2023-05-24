@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutricao_app/pages/login_page.dart';
 
@@ -9,6 +11,29 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
+<
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    nomeController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,15 +60,22 @@ class _CadastroPageState extends State<CadastroPage> {
               Padding(
                 padding: EdgeInsets.all(20),
                 child: Center(
-                  child: Text('Criar sua conta', style: TextStyle(fontSize: 28, color: Colors.white, fontFamily: 'OpenSans'),),
+                  child: Text(
+                    'Criar sua conta',
+                    style: TextStyle(
+                        fontSize: 28,
+                        color: Colors.white,
+                        fontFamily: 'OpenSans'),
+                  ),
                 ),
               ),
               TextFormField(
                 style: const TextStyle(color: Colors.white, fontSize: 18),
+                controller: nomeController,
                 decoration: const InputDecoration(
                   labelText: 'Nome',
                   labelStyle: TextStyle(color: Colors.white),
-                  hintText: 'Digite seu nome',
+                  hintText: 'Digite seu nome completo',
                   border: OutlineInputBorder(),
                   hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
                   prefixIcon: Icon(Icons.person),
@@ -54,6 +86,11 @@ class _CadastroPageState extends State<CadastroPage> {
                 height: 10,
               ),
               TextFormField(
+
+                controller: emailController,
+                enableSuggestions: false,
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
                 style: const TextStyle(color: Colors.white, fontSize: 18),
                 decoration: const InputDecoration(
                   labelText: 'Email',
@@ -69,6 +106,11 @@ class _CadastroPageState extends State<CadastroPage> {
                 height: 10,
               ),
               TextFormField(
+
+                controller: passwordController,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
                 style: const TextStyle(color: Colors.white, fontSize: 18),
                 decoration: const InputDecoration(
                   labelText: 'Senha',
@@ -84,12 +126,44 @@ class _CadastroPageState extends State<CadastroPage> {
                 height: 10,
               ),
               ElevatedButton(
-                onPressed: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ))
+                onPressed: () async {
+                  final nome = nomeController.text;
+                  final email = emailController.text;
+                  final password = passwordController.text;
+
+                  try {
+                    final userCredential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                            email: email, password: password);
+                    print(userCredential);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Usuário registrado!')),
+                    );
+                    _firestore.collection('usuario').add({
+                      'nomeUsuario': nome,
+                      'email': email,
+                    }).then((DocumentReference doc) {
+                      print('Usuario salvo com ID: ${doc.id}');
+                    }).catchError((error) {
+                      print('Erro ao salvar usuário: $error');
+                    });
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'weak-password') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Senha fraca')),
+                      );
+                    }
+                    if (e.code == 'email-already-in-use') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Email já cadastrado')),
+                      );
+                    }
+                    if (e.code == 'invalid-email') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('email invalido')),
+                      );
+                    }
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateColor.resolveWith((states) {
@@ -97,7 +171,7 @@ class _CadastroPageState extends State<CadastroPage> {
                   }),
                   padding: const MaterialStatePropertyAll(EdgeInsets.all(20)),
                 ),
-                child: const Text('Acessar',
+                child: const Text('Cadastrar',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
