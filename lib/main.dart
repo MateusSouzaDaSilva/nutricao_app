@@ -10,9 +10,9 @@ void main() {
   Firebase.initializeApp();
   runApp(
     MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Healthly App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
       home: const HomePage(),
     ),

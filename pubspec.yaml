@@ -85,11 +85,15 @@ flutter:
     - family: OpenSans
       fonts:
         - asset: assets/fonts/OpenSans-Medium.ttf
-        
-  assets:
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
+
+  assets: 
     - assets/logo.png
     - assets/Banner.png
     - assets/Logo-Nutri.png
 
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+
+  
+        
+    

@@ -1,3 +1,4 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutricao_app/pages/home_page.dart';
@@ -12,6 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -28,6 +30,9 @@ class _LoginPageState extends State<LoginPage> {
     passwordController.dispose();
     super.dispose();
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Image.asset('assets/logo.png'),
             ),
             TextFormField(
+
               controller: emailController,
               enableSuggestions: false,
               autocorrect: false,
@@ -124,11 +130,13 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.white,
                       fontSize: 16,
                       fontFamily: 'OpenSans')),
+
             ),
             const Divider(),
             Padding(
               padding: EdgeInsets.all(12),
               child: Center(
+
                   child: TextButton(
                 onPressed: () {
                   Navigator.push(

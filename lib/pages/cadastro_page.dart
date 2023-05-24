@@ -11,6 +11,7 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
+<
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   TextEditingController nomeController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -85,6 +86,7 @@ class _CadastroPageState extends State<CadastroPage> {
                 height: 10,
               ),
               TextFormField(
+
                 controller: emailController,
                 enableSuggestions: false,
                 autocorrect: false,
@@ -104,6 +106,7 @@ class _CadastroPageState extends State<CadastroPage> {
                 height: 10,
               ),
               TextFormField(
+
                 controller: passwordController,
                 obscureText: true,
                 enableSuggestions: false,
